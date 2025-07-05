@@ -23,7 +23,7 @@ spring:
     consumer:
       group-id: 'order-service'
     properties:
-      schema.registry.url: http://schema-registry-service:8081
+      schema-registry-url: http://schema-registry-service:8081
 
 grpc:
   client:
