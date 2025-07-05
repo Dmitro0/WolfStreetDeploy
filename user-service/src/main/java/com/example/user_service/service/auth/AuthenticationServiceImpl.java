@@ -55,6 +55,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User savedUser = userRepository.save(user);
         userRoleService.addRoleForUser(savedUser, RoleType.TRADER);
         eventPublisher.publishEvent(savedUser);
+        log.info("Register successful");
     }
 
     @Override
