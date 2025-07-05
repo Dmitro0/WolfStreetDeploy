@@ -15,7 +15,7 @@ kind: ConfigMap
 metadata:
   name: order-service-configmap
 data:
-  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service:5432/order-service
+  SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-service:5432/order_service
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service:9092
   SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry-service:8081
   GRPC_CLIENT_PORTFOLIO-SERVICE_ADDRESS: static://portfolio-service:6565
