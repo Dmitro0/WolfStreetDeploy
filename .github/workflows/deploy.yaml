@@ -39,7 +39,6 @@ jobs:
           port: ${{ secrets.SERVER_PORT || 22}}
           source: 'k8s/,*.tar.gz'
           target: '~/wolfstreet/'
-          strip_components: 1
 
       - name: Deploy on server
         uses: appleboy/ssh-action@v1.0.0
@@ -53,10 +52,10 @@ jobs:
             cd ~/wolfstreet
 
             # Load new Docker images
-            echo "Loading images into MicroK8s/Minikube..."
-            microk8s ctr image import user-service.tar.gz || minikube image load user-service.tar.gz
-            microk8s ctr image import order-service.tar.gz || minikube image load order-service.tar.gz
-            microk8s ctr image import portfolio-service.tar.gz || minikube image load portfolio-service.tar.gz
+            echo "Loading images into Minikube..."
+            minikube image load user-service.tar.gz
+            minikube image load order-service.tar.gz
+            minikube image load portfolio-service.tar.gz
 
             # Clean up the archives
             rm *.tar.gz
