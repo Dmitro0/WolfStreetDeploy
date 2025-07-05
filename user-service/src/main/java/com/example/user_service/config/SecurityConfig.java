@@ -60,7 +60,10 @@ public class SecurityConfig {
                                 "/auth/**").permitAll()
                         .requestMatchers(
                                 "/swagger-ui/**",
-                                "/v3/api-docs/**").permitAll()
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/swagger-resources/**",
+                                "/webjars/**").permitAll()
                         .requestMatchers(
                                 "/actuator/health",
                                 "/actuator/health/**").permitAll()
