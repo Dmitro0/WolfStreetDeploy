@@ -9,21 +9,21 @@ spec:
     - http:
         paths:
           - path: /user-service(/|$)(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: user-service
                 port:
                   number: 8080
           - path: /order-service(/|$)(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: order-service
                 port:
                   number: 8085
           - path: /portfolio-service(/|$)(.*)
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: portfolio-service
