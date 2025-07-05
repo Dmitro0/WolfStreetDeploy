@@ -60,10 +60,20 @@ jobs:
             # Clean up the archives
             rm *.tar.gz
 
-            # Apply Kubernetes configurations
-            echo "Applying Kubernetes manifests..."
+            # Apply Kubernetes configurations in a staged manner
+            echo "Applying PostgreSQL manifests..."
             kubectl apply -f k8s/postgres/
+            echo "Waiting for PostgreSQL to be ready..."
+            kubectl rollout status deployment/postgres-deployment --timeout=300s
+
+            echo "Applying Kafka & Zookeeper manifests..."
             kubectl apply -f k8s/kafka/
+            echo "Waiting for Kafka & Zookeeper to be ready..."
+            kubectl rollout status deployment/zookeeper-deployment --timeout=300s
+            kubectl rollout status deployment/kafka-deployment --timeout=300s
+            kubectl rollout status deployment/schema-registry-deployment --timeout=300s
+
+            echo "Applying application services manifests..."
             kubectl apply -f k8s/services/
 
             # Set the new image for the deployments and trigger a rollout
