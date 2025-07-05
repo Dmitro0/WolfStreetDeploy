@@ -24,7 +24,7 @@ public class DealEventListener {
         log.info("Received message from topic: {}, event: {}", topic, request.getEventCase());
         switch (request.getEventCase()){
             case DEAL_EXECUTED -> {
-                log.info("processing executed deal...");
+                log.info("Processing executed deal...");
                 DealMessages.DealExecutedEvent dealExecutedEvent = request.getDealExecuted();
                 portfolioValidationService.processExecutedDeal(
                         dealExecutedEvent.getBuyerId(),
@@ -36,7 +36,7 @@ public class DealEventListener {
                         new BigDecimal(dealExecutedEvent.getLotPrice()));
             }
             case DEAL_CANCELLED -> {
-                log.info("processing cancelled deal...");
+                log.info("Processing cancelled deal...");
                 DealMessages.DealCancelledEvent dealCancelledEvent = request.getDealCancelled();
                 portfolioValidationService.processCancelledDeal(
                         dealCancelledEvent.getBuyerId(),
