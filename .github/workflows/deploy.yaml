@@ -24,9 +24,7 @@ jobs:
       - name: Build and archive Docker images
         run: |
           for service in user-service order-service portfolio-service; do
-            echo "Building image for $service"
             docker build -t $service:${{ github.sha }} -f $service/Dockerfile $service
-            echo "Saving image $service to tar.gz"
             docker save $service:${{ github.sha }} | gzip > $service.tar.gz
           done
 
@@ -48,7 +46,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: ${{ secrets.SERVER_PORT || 22}}
           script: |
-            set -e # Exit immediately if a command exits with a non-zero status.
+            set -e
             cd ~/wolfstreet
 
             # Load new Docker images
@@ -72,7 +70,10 @@ jobs:
             kubectl rollout status deployment/zookeeper-deployment --timeout=300s
             kubectl rollout status deployment/kafka-deployment --timeout=300s
             kubectl rollout status deployment/schema-registry-deployment --timeout=300s
-
+            
+            echo "Secrets applying"
+            kubectl apply -f k8s/common/
+            
             echo "Applying application services manifests..."
             kubectl apply -f k8s/services/
 
