@@ -19,14 +19,6 @@ data:
   SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka-service:9092
   SPRING_APPLICATION_NAME: user-service
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: user-service-secret
-type: Opaque
-data:
-  SECURITY_JWT_SECRET_KEY: dXNhY2hldl9odWVzb3NfdXNhY2hldl9odWVzb3NfdXNhY2hldl9odWVzb3M=
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -50,7 +42,7 @@ spec:
             - configMapRef:
                 name: user-service-configmap
             - secretRef:
-                name: user-service-secret
+                name: jwt-secret
           env:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:

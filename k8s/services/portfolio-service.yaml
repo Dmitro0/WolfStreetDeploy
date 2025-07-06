@@ -27,14 +27,6 @@ data:
   SERVER_PORT: '8083'
   SPRING_APPLICATION_NAME: portfolio-service
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: portfolio-service-secret
-type: Opaque
-data:
-  SECURITY_JWT_SECRET_KEY: dXNhY2hldl9odWVzb3NfdXNhY2hldl9odWVzb3NfdXNhY2hldl9odWVzb3M=
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -59,7 +51,7 @@ spec:
             - configMapRef:
                 name: portfolio-service-configmap
             - secretRef:
-                name: portfolio-service-secret
+                name: jwt-secret
           env:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
