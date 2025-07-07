@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 
-@CrossOrigin
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
