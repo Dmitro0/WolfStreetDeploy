@@ -3,6 +3,10 @@ server:
   servlet:
     context-path: /user-service
 spring:
+  mvc:
+    cors:
+      allowed-origins: "*"
+      allowed-methods: "*"
   application:
     name: user-service
   datasource:
