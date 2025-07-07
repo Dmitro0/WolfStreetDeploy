@@ -1,9 +1,7 @@
 name: Deploy
-
 on:
   push:
     branches: [main]
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -49,42 +47,37 @@ jobs:
             set -e
             cd ~/wolfstreet
 
-            # Load new Docker images
-            echo "Loading images into Minikube..."
+            # Load Docker images
             minikube image load user-service.tar.gz
             minikube image load order-service.tar.gz
             minikube image load portfolio-service.tar.gz
 
-            # Clean up the archives
+            # Delete archives
             rm *.tar.gz
 
-            # Apply Kubernetes configurations in a staged manner
-            echo "Applying PostgreSQL manifests..."
+            # Applying postgres manifest
             kubectl apply -f k8s/postgres/
-            echo "Waiting for PostgreSQL to be ready..."
             kubectl rollout status deployment/postgres-deployment --timeout=300s
 
-            echo "Applying Kafka & Zookeeper manifests..."
+            # Applying kafka manifest
             kubectl apply -f k8s/kafka/
             echo "Waiting for Kafka & Zookeeper to be ready..."
             kubectl rollout status deployment/zookeeper-deployment --timeout=300s
             kubectl rollout status deployment/kafka-deployment --timeout=300s
             kubectl rollout status deployment/schema-registry-deployment --timeout=300s
             
-            echo "Secrets applying"
+            # Applying secrets
             kubectl apply -f k8s/common/
             
-            echo "Applying application services manifests..."
+            #Applying services manifests
             kubectl apply -f k8s/services/
 
-            # Set the new image for the deployments and trigger a rollout
-            echo "Updating deployments with new images..."
+            # Setting images
             kubectl set image deployment/user-service-deployment user-service=user-service:${{ github.sha }}
             kubectl set image deployment/order-service-deployment order-service=order-service:${{ github.sha }}
             kubectl set image deployment/portfolio-service-deployment portfolio-service=portfolio-service:${{ github.sha }}
 
-            # Wait for rollouts to complete
-            echo "Waiting for deployments to stabilize..."
+            # Service rollouts
             kubectl rollout status deployment/user-service-deployment --timeout=300s
             kubectl rollout status deployment/order-service-deployment --timeout=300s
             kubectl rollout status deployment/portfolio-service-deployment --timeout=300s
@@ -92,6 +85,6 @@ jobs:
             # Apply ingress
             echo "Applying ingress..."
             kubectl apply -f k8s/ingress/
-
-            echo "Deployment successful! Current pods:"
+            
+            # Getting pods for checking
             kubectl get pods
